@@ -34,6 +34,96 @@ import static org.junit.jupiter.api.Assertions.*;
  */
 public class GraphTestsTest
 {
+    @Test
+    public void testIsLinear() {
+        Graph<Integer, DefaultEdge> graph;
+
+        graph = new SimpleGraph<>(DefaultEdge.class);
+        assertTrue(GraphTests.isLinear(graph));
+
+        graph = new SimpleGraph<>(DefaultEdge.class);
+        graph.addVertex(1);
+        assertTrue(GraphTests.isLinear(graph));
+
+        graph = new SimpleGraph<>(DefaultEdge.class);
+        graph.addVertex(1);
+        graph.addVertex(2);
+        graph.addEdge(1, 2);
+        assertTrue(GraphTests.isLinear(graph));
+
+        graph = new SimpleGraph<>(DefaultEdge.class);
+        graph.addVertex(1);
+        graph.addVertex(2);
+        graph.addVertex(3);
+        graph.addVertex(4);
+        graph.addEdge(1, 2);
+        graph.addEdge(2, 3);
+        graph.addEdge(3, 4);
+        assertTrue(GraphTests.isLinear(graph));
+
+        graph = new SimpleGraph<>(DefaultEdge.class);
+        graph.addVertex(1);
+        graph.addVertex(2);
+        graph.addVertex(3);
+        graph.addEdge(1, 2);
+        graph.addEdge(2, 3);
+        graph.addEdge(3, 1);
+        assertFalse(GraphTests.isLinear(graph));
+
+        graph = new SimpleGraph<>(DefaultEdge.class);
+        graph.addVertex(1);
+        graph.addVertex(2);
+        graph.addVertex(3);
+        graph.addVertex(4);
+        graph.addEdge(1, 3);
+        graph.addEdge(2, 3);
+        graph.addEdge(3, 4);
+        assertFalse(GraphTests.isLinear(graph));
+
+        graph = new SimpleGraph<>(DefaultEdge.class);
+        graph.addVertex(1);
+        graph.addVertex(2);
+        graph.addVertex(3);
+        graph.addVertex(4);
+        graph.addEdge(1, 2);
+        graph.addEdge(3, 4);
+        assertFalse(GraphTests.isLinear(graph));
+
+        graph = new SimpleGraph<>(DefaultEdge.class);
+        graph.addVertex(1);
+        graph.addVertex(2);
+        graph.addVertex(3);
+        graph.addVertex(4);
+        graph.addEdge(1, 2);
+        graph.addEdge(1, 3);
+        graph.addEdge(1, 4);
+        graph.addEdge(2, 3);
+        graph.addEdge(2, 4);
+        graph.addEdge(3, 4);
+        assertFalse(GraphTests.isLinear(graph));
+
+        graph = new SimpleGraph<>(DefaultEdge.class);
+        graph.addVertex(1);
+        graph.addVertex(2);
+        graph.addVertex(3);
+        graph.addVertex(4);
+        graph.addEdge(1, 2);
+        graph.addEdge(1, 3);
+        graph.addEdge(1, 4);
+        assertFalse(GraphTests.isLinear(graph));
+
+        assertThrows(NullPointerException.class, () -> {
+            GraphTests.isLinear(null);
+        });
+
+        Graph<Integer, DefaultEdge> directedGraph = new SimpleDirectedGraph<>(DefaultEdge.class);
+        directedGraph.addVertex(1);
+        directedGraph.addVertex(2);
+        directedGraph.addEdge(1, 2);
+        assertThrows(IllegalArgumentException.class, () -> {
+            GraphTests.isLinear(directedGraph);
+        });
+    }
 
     @Test
     public void testIsEmpty()

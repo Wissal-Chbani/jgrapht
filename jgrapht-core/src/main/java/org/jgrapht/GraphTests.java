@@ -45,7 +45,6 @@ public abstract class GraphTests
 
     /**
      * Test whether a graph is linear (path graph)
-     *
      * A graph is linear if:
      * 1. It is undirected.
      * 2. Every vertex has degree <=2.
@@ -63,6 +62,10 @@ public abstract class GraphTests
             throw new IllegalArgumentException(GRAPH_MUST_BE_UNDIRECTED);
         }
 
+        if (graph.vertexSet().size() == 0 || graph.vertexSet().size() == 1) {
+            return true;
+        }
+
         for (V v : graph.vertexSet()) {
             if (graph.degreeOf(v) > 2) {
                 return false;
@@ -74,8 +77,7 @@ public abstract class GraphTests
             return false;
         }
 
-        CycleDetector<V, E> detector = new CycleDetector<>(graph);
-        if (detector.detectCycles()) {
+        if (!(graph.edgeSet().size() == graph.vertexSet().size() - 1)) {
             return false;
         }
 
